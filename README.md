@@ -26,7 +26,7 @@
 .
 ├── index.html          # 主页面
 ├── css/
-│   └── style.css       # 深色现代样式
+│   └── style.css       # 绿色终端极客风样式
 ├── js/
 │   ├── app.js          # UI、i18n 调度、攻击编排
 │   ├── i18n.js         # 中英文文案

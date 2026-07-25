@@ -58,7 +58,7 @@ function setStatus(msg, type = 'info') {
 function showResult(password) {
   resultBox.innerHTML = `
     <div class="success-box">
-      <h3>🎉 ${escapeHtml(t('resultTitle'))}</h3>
+      <h3>[OK] ${escapeHtml(t('resultTitle'))}</h3>
       <p class="password">${escapeHtml(password)}</p>
       <p class="hint">${escapeHtml(t('resultHint'))}</p>
     </div>
