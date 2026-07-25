@@ -4,8 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JKS密码找回</title>
-  <meta name="description" content="纯浏览器端 Android JKS Keystore 密码恢复工具。支持字典攻击、智能词表、暴力破解。可直接部署到 Cloudflare Pages。" />
-  <meta name="description" lang="en" content="Browser-based Android JKS Keystore password recovery. Dictionary, smart wordlist, and brute-force. Deploy to Cloudflare Pages." />
+  <meta name="description" content="纯浏览器端 Android JKS Keystore 密码恢复工具。支持智能词表、字典、暴力恢复。可直接部署到 Cloudflare Pages。" />
   <link rel="stylesheet" href="./css/style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,7 +20,11 @@
           <button type="button" class="lang-btn" data-lang="en" id="lang-en">EN</button>
         </div>
       </div>
-      <p data-i18n="subtitle">纯前端 · 本地运行 · 可一键部署到 Cloudflare Pages</p>
+      <p class="subtitle" data-i18n="subtitle">纯前端 · 本地运行 · 可一键部署到 Cloudflare Pages</p>
+      <p class="star-hint">
+        <span data-i18n="starHint">如果帮助到了你，记得为本项目点个 Star</span>
+        <a href="https://github.com/TG-Twilight/JKS.Recover" target="_blank" rel="noopener">★ Star</a>
+      </p>
     </header>
 
     <div class="card">
@@ -33,21 +36,15 @@
     </div>
 
     <div class="card">
-      <h2 data-i18n="step2">2. 选择攻击方式</h2>
+      <h2 data-i18n="step2">2. 选择恢复方式</h2>
       <label for="method" data-i18n="methodLabel">方法</label>
       <select id="method">
-        <option value="dict" data-i18n="methodDict">字典攻击 (Dictionary)</option>
-        <option value="smart" data-i18n="methodSmart">智能词表攻击 (Smart Wordlist)</option>
-        <option value="brute" data-i18n="methodBrute">暴力破解 (Brute-force · 仅短密码)</option>
+        <option value="smart" selected data-i18n="methodSmart">智能词表恢复</option>
+        <option value="dict" data-i18n="methodDict">字典恢复</option>
+        <option value="brute" data-i18n="methodBrute">暴力恢复（仅短密码）</option>
       </select>
 
-      <div id="dict-section">
-        <label for="wordlist" data-i18n="wordlistLabel">词典（每行一个候选密码）</label>
-        <textarea id="wordlist" data-i18n-placeholder="wordlistPlaceholder" placeholder="password&#10;123456&#10;android&#10;keystore&#10;myapp2020&#10;..."></textarea>
-        <p class="note" data-i18n="wordlistNote">可粘贴常用密码列表，或自己准备的可能密码。</p>
-      </div>
-
-      <div id="smart-section" hidden>
+      <div id="smart-section">
         <label for="pieces" data-i18n="piecesLabel">密码片段（空格或逗号分隔）</label>
         <input type="text" id="pieces" data-i18n-placeholder="piecesPlaceholder" placeholder="例如: got love ya 或 my app 2020" />
         <label for="firstchars" data-i18n="firstcharsLabel">已知前缀（可选）</label>
@@ -69,9 +66,15 @@
         <p class="note" data-i18n="smartNote">工具会自动排列组合片段、首字母大写、并追加 0-99 数字。</p>
       </div>
 
+      <div id="dict-section" hidden>
+        <label for="wordlist" data-i18n="wordlistLabel">词典（每行一个候选密码）</label>
+        <textarea id="wordlist" data-i18n-placeholder="wordlistPlaceholder" placeholder="password&#10;123456&#10;android&#10;keystore&#10;myapp2020&#10;..."></textarea>
+        <p class="note" data-i18n="wordlistNote">可粘贴常用密码列表，或自己准备的可能密码。</p>
+      </div>
+
       <div id="brute-section" hidden>
         <p class="note" style="color:var(--warn)" data-i18n="bruteWarn">
-          警告：浏览器暴力破解速度有限。建议仅用于 4-6 位短密码。复杂密码请使用原版 Java 工具。
+          提示：浏览器暴力恢复速度有限，建议仅用于 4-6 位短密码。
         </p>
         <div class="row">
           <div>
@@ -92,7 +95,7 @@
 
     <div class="card">
       <h2 data-i18n="step3">3. 开始恢复</h2>
-      <button id="start-btn" class="btn btn-primary" data-i18n="startBtn">开始攻击</button>
+      <button id="start-btn" class="btn btn-primary" data-i18n="startBtn">开始恢复</button>
       <button id="stop-btn" class="btn btn-danger" disabled data-i18n="stopBtn">停止</button>
       <div id="status" class="status info" data-i18n="statusInit">请选择你的 Android keystore 文件开始。所有处理都在本地浏览器完成，文件不会上传。</div>
       <div id="speed"></div>
@@ -101,17 +104,12 @@
     <div id="result" hidden></div>
 
     <footer>
-      <p>
-        <span data-i18n="footerBased">基于</span>
-        <a href="https://github.com/MaxCamillo/android-keystore-password-recover" target="_blank" rel="noopener">MaxCamillo/android-keystore-password-recover</a>
-        <span data-i18n="footerAlgo">的算法实现</span><br />
-        <span data-i18n="footerStatic">纯静态站点，可直接部署到</span> <strong>Cloudflare Pages</strong>
-      </p>
-      <p style="margin-top:8px" data-i18n="footerNote">
-        原版 Java 工具更适合长时间 / 大规模攻击，本 Web 版适合快速验证和短密码场景。
-      </p>
-      <p style="margin-top:8px">
+      <p class="footer-links">
         <a href="https://github.com/TG-Twilight/JKS.Recover" target="_blank" rel="noopener">JKS.Recover</a>
+        <span class="sep">·</span>
+        <a href="https://awads.cc" target="_blank" rel="noopener">秋风塬上</a>
+        <span class="sep">·</span>
+        <a href="https://t.me/AWAvenue" target="_blank" rel="noopener">秋风のとおり道</a>
       </p>
     </footer>
   </div>

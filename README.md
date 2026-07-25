@@ -5,20 +5,21 @@
 项目名称：**JKS.Recover**  
 页面标题：中文 **JKS密码找回** / 英文 **JKS Recover**（支持一键切换，默认中文）
 
-基于 [MaxCamillo/android-keystore-password-recover](https://github.com/MaxCamillo/android-keystore-password-recover) 的核心算法（JKS 签名验证），完全用现代 Web 技术重写，**无构建步骤、无后端依赖**。
+纯前端实现 JKS 完整性校验（SHA-1 + UTF-16BE），**无构建步骤、无后端依赖**。在线站点：[jks.awads.cc](https://jks.awads.cc)
 
 ## 特性
 
 - **完全本地运行**：Keystore 文件不会上传到任何服务器
 - **中英文界面**：右上角切换语言，默认中文
-- **三种攻击方式**：
-  - 字典攻击（Dictionary）
-  - 智能词表攻击（Smart Wordlist：排列组合 + 首字母大写 + 数字后缀）
-  - 有限暴力破解（仅推荐 4～6 位）
+- **三种恢复方式**（默认优先智能词表）：
+  - 智能词表恢复（排列组合 + 首字母大写 + 数字后缀）
+  - 字典恢复
+  - 暴力恢复（仅推荐 4～6 位）
+- **找到密码后**：点击复制 + 一键导出密钥信息（txt）
 - **多线程**：Web Workers + `navigator.hardwareConcurrency`
 - **一键部署**：纯静态站点，适配 Cloudflare Pages / GitHub Pages / Netlify 等
 
-> **注意**：浏览器算力有限。长时间、大规模暴力/字典攻击仍推荐使用原版 Java 工具。本 Web 版适合快速验证、部分记忆的密码、以及部署后随时可用的轻量场景。
+> **注意**：浏览器算力有限。本工具适合快速验证、部分记忆的密码、以及部署后随时可用的轻量场景。
 
 ## 项目结构
 
@@ -28,7 +29,7 @@
 ├── css/
 │   └── style.css       # 绿色终端极客风样式
 ├── js/
-│   ├── app.js          # UI、i18n 调度、攻击编排
+│   ├── app.js          # UI、i18n 调度、恢复编排
 │   ├── i18n.js         # 中英文文案
 │   ├── keystore.js     # JKS 密码验证核心（SHA-1 + UTF-16BE）
 │   └── worker.js       # Web Worker（并行验证候选密码）
@@ -93,23 +94,10 @@ SHA-1( UTF-16BE(password) + "Mighty Aphrodite" + keystore_body )
 
 与文件末尾 20 字节签名比对即可判断密码是否正确。此方法高效，适合在浏览器中批量尝试。
 
-## 与原版 Java 工具
-
-| 项目     | 原版 Java              | 本 Web 版（JKS.Recover）   |
-|----------|------------------------|----------------------------|
-| 运行环境 | 本地 JRE               | 现代浏览器                 |
-| 算力     | 高（多线程 CPU）       | 中等（Web Workers）        |
-| 隐私     | 本地                   | 本地（可分享链接）         |
-| 部署     | 需下载 JAR             | Cloudflare Pages 一键      |
-| 适用场景 | 长时间破解             | 快速验证 / 短密码 / 在线工具 |
-
-原版工具：https://github.com/MaxCamillo/android-keystore-password-recover
-
 ## License
 
-本 Web 实现遵循原 JKS 实现（Casey Marshall）的宽松许可。  
 UI 与调度代码可自由使用。
 
 ---
 
-**JKS.Recover** · Made for Cloudflare Pages.
+[JKS.Recover](https://github.com/TG-Twilight/JKS.Recover) · [秋风塬上](https://awads.cc) · [秋风のとおり道](https://t.me/AWAvenue)
