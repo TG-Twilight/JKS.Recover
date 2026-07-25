@@ -1,0 +1,11 @@
+{
+  "name": "jks-recover",
+  "version": "1.0.0",
+  "private": true,
+  "description": "纯浏览器端 Android JKS / Keystore 密码恢复工具",
+  "license": "GPL-3.0-only",
+  "scripts": {
+    "build": "node -e \"console.log('JKS.Recover: static site, nothing to compile.')\"",
+    "preview": "npx --yes serve . -l 8080"
+  }
+}
