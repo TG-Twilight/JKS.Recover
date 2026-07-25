@@ -118,4 +118,4 @@ SHA-1( UTF-16BE(password) + "Mighty Aphrodite" + keystore_body )
 
 [JKS.Recover](https://github.com/TG-Twilight/JKS.Recover) · [秋风塬上](https://awads.cc) · [秋风のとおり道](https://t.me/AWAvenue)
 
-*本项目由 Grok Build 与 Grok 4.5 协作完成：从静态架构、终端风界面到恢复逻辑与 Cloudflare Pages 部署说明，均在该工具链下迭代落地。*
+*本项目由 Grok Build 与 Grok 4.5 协作完成，这玩意真快啊😏*
